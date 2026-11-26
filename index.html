@@ -98,4 +98,169 @@ th{background:#0f3460;color:#fff}
 
 <div id="s-alt" class="screen"><h2>Ruta Teórica Alternativa</h2>
 <p class="ptext">Pregunta <span id="aqc">1</span> de 30.</p>
-<div class="xp-bar"><div class="xp-fill" id="axb" style="
+<div class="xp-bar"><div class="xp-fill" id="axb" style="width:0%">0/30</div></div>
+<div class="question-box"><p id="aqt" style="font-weight:600;margin-bottom:12px"></p>
+<div id="aqo"></div><div id="aqf" class="feedback"></div></div>
+<button class="btn" id="abn" onclick="nextAlt()" disabled>Siguiente</button>
+<button class="btn secondary" onclick="show('s-map')">Volver al Mapa</button></div>
+
+<div id="s-altr" class="screen"><h2>Resultado de la Ruta Teórica</h2>
+<div class="alert" id="ara"></div>
+<p style="font-size:1.2em;margin:15px 0">Puntaje final: <strong><span id="asd">0</span>/30</strong></p>
+<button class="btn success" id="aaa">Acción</button>
+<button class="btn secondary" onclick="show('s-map')">Volver al Mapa</button></div>
+
+<div id="s-fin" class="screen"><h1>Ruta Completada</h1>
+<div class="alert success"><strong>Felicitaciones <span id="fn"></span></strong><br>Has completado ape1.</div>
+<p>XP total: <strong><span id="fxp">0</span></strong></p>
+<button class="btn" onclick="logout()">Salir</button></div>
+
+<div id="s-tlogin" class="screen"><h2>Panel Docente</h2>
+<input type="password" id="tp" placeholder="Clave docente">
+<button class="btn" onclick="tLogin()">Entrar</button>
+<button class="btn secondary" onclick="show('s-login')">Cerrar</button></div>
+
+<div id="s-teacher" class="screen"><h2>Registro de Progreso</h2>
+<table><thead><tr><th>Apellido</th><th>Modo</th><th>Misión</th><th>Intentos</th><th>Puntaje</th><th>Estado</th><th>Código</th></tr></thead>
+<tbody id="ttb"></tbody></table>
+<div class="alert warning" style="margin-top:15px">Solo el docente puede reiniciar progresos.</div>
+<input type="text" id="rap" placeholder="Apellido a reiniciar">
+<button class="btn danger" onclick="resetSt()">Borrar Progreso</button>
+<button class="btn secondary" onclick="logout()">Cerrar</button></div>
+</div>
+
+<script>
+window.onerror=function(m,u,l){var b=document.getElementById('eb');if(b){b.style.display='block';b.textContent='ERROR: '+m+' (linea '+l+')';}};
+var M=[
+{id:1,n:'Cinematica y Dinamica Lineal',t:'<h3>Leyes de Newton</h3><p><b>1a Ley:</b> con fuerza neta cero, el cuerpo mantiene reposo o MRU.</p><p><b>2a Ley:</b> F = m·a</p><p><b>3a Ley:</b> accion y reaccion actuan sobre cuerpos diferentes.</p><h3>Graficos</h3><p>Pendiente x-t = velocidad. Pendiente v-t = aceleracion.</p>',l:'<b>Practica:</b> movimiento rectilineo y caida libre. Grafica x-t y v-t.',c:'M1-2026',q:[
+{q:'1. Si la fuerza neta es cero, el cuerpo:',o:['Esta en reposo','Acelera','Mantiene reposo o MRU','Se detiene'],c:2,f:'1a Ley de Newton (Inercia).'},
+{q:'2. La pendiente del grafico x-t representa:',o:['Aceleracion','Velocidad','Fuerza','Desplazamiento'],c:1,f:'La derivada de la posicion es la velocidad.'},
+{q:'3. Duplicar la masa con fuerza constante hace que a:',o:['Se duplique','No cambie','Se reduzca a la mitad','Se cuadruplique'],c:2,f:'a = F/m, son inversamente proporcionales.'},
+{q:'4. En caida libre sin rozamiento, la aceleracion es:',o:['Cero','Variable','Constante g','Depende de la masa'],c:2,f:'Todos caen con g = 9.8 m/s2.'},
+{q:'5. Accion y reaccion:',o:['Se anulan','Mismo cuerpo','Cuerpos diferentes','Accion mayor'],c:2,f:'Actuan sobre cuerpos distintos, no se anulan.'}]},
+{id:2,n:'Fuerzas y Sistemas Vinculados',t:'<h3>Sistemas Vinculados</h3><p>Cuerpos conectados comparten la misma aceleracion.</p><h3>Rozamiento</h3><div class=formula>f = mu·N</div><p>El estatico maximo es mayor que el cinetico.</p>',l:'<b>Practica:</b> medir rozamiento con dinamometro en distintas superficies.',c:'M2-2026',q:[
+{q:'1. En dos bloques con cuerda ideal, la aceleracion es:',o:['Diferente','La misma','Solo del pesado','Cero'],c:1,f:'Al estar vinculados se mueven juntos.'},
+{q:'2. El rozamiento cinetico es:',o:['Mayor que el estatico','Igual','Menor que el estatico','Independiente de N'],c:2,f:'Cuesta mas iniciar que mantener el movimiento.'},
+{q:'3. La fuerza de rozamiento es:',o:['mu·m','mu·N','mu·g','mu·v'],c:1,f:'Depende del coeficiente y la normal.'},
+{q:'4. La resultante se obtiene por:',o:['Suma de modulos','Resta','Suma vectorial','Producto'],c:2,f:'Las fuerzas son vectores.'},
+{q:'5. Bloque en reposo sin fuerza horizontal, rozamiento:',o:['mu_e·N','mu_k·N','Cero','Igual al peso'],c:2,f:'Sin tendencia al movimiento no hay rozamiento.'}]},
+{id:3,n:'Elasticidad y Dynamometro',t:'<h3>Ley de Hooke</h3><div class=formula>F = k·x</div><p>Proporcionalidad dentro del limite elastico. k en N/m.</p>',l:'<b>Practica:</b> construir un dinamometro y graficar F vs x.',c:'M3-2026',q:[
+{q:'1. La Ley de Hooke dice que F es:',o:['Inversamente proporcional a x','Proporcional a x','Independiente de x','Proporcional a x2'],c:1,f:'F = k·x, proporcionalidad directa.'},
+{q:'2. k se mide en:',o:['N','N/m','kg/m','J/m'],c:1,f:'k = F/x, unidades N/m.'},
+{q:'3. Duplicar la fuerza en un resorte:',o:['x igual','x doble','x cuadruple','x mitad'],c:1,f:'Por proporcionalidad directa.'},
+{q:'4. El dinamometro se basa en:',o:['Gravedad','Ley de Hooke','Rozamiento','Inercia'],c:1,f:'Deformacion calibrada de un resorte.'},
+{q:'5. Superado el limite elastico:',o:['Sigue Hooke','Se rompe','Deformacion permanente','Sube k'],c:2,f:'Pierde la capacidad de recuperar la forma.'}]},
+{id:4,n:'Rotacion y Solidos',t:'<h3>Centro de Masas</h3><p>Punto donde se concentra la masa para la traslacion.</p><h3>Momento de fuerza</h3><div class=formula>tau = F·d</div><h3>MCU</h3><div class=formula>ac = v2/r</div>',l:'<b>Practica:</b> medir periodo y calcular aceleracion centripeta.',c:'M4-2026',q:[
+{q:'1. El torque depende de:',o:['Solo F','Solo d','F y brazo','Masa'],c:2,f:'tau = F·d.'},
+{q:'2. La velocidad angular se mide en:',o:['m/s','rad/s','rev/s','N·m'],c:1,f:'Radianes por segundo.'},
+{q:'3. La aceleracion centripeta apunta:',o:['Al movimiento','Afuera','Al centro','Tangente'],c:2,f:'Cambia la direccion de la velocidad.'},
+{q:'4. El centro de masas es:',o:['Centro geometrico','Punto equivalente de traslacion','El mas pesado','El mas alejado'],c:1,f:'Como si toda la masa estuviera alli.'},
+{q:'5. Duplicar v en MCU, ac:',o:['Igual','Doble','Cuadruple','Mitad'],c:2,f:'ac = v2/r depende del cuadrado.'}]},
+{id:5,n:'Impulso y Choques',t:'<h3>Cantidad de movimiento</h3><div class=formula>p = m·v</div><h3>Impulso</h3><div class=formula>I = F·dt = dp</div><p>En sistema aislado, p total se conserva (x e y por separado en 2D).</p>',l:'<b>Practica:</b> choque de dos esferas, verificar conservacion en 2D.',c:'M5-2026',q:[
+{q:'1. La cantidad de movimiento es:',o:['m·a','m·v','F·t','m·g'],c:1,f:'p = m·v.'},
+{q:'2. El impulso es igual a:',o:['F por m','Variacion de p','Ec','Trabajo'],c:1,f:'Teorema del impulso.'},
+{q:'3. En sistema aislado, p total:',o:['Sube','Baja','Se conserva','Depende de m'],c:2,f:'Ley de conservacion.'},
+{q:'4. En choque 2D, se conserva:',o:['Solo x','Solo y','x e y','Solo direccion'],c:2,f:'Es ley vectorial, por ejes.'},
+{q:'5. Duplicar v, p:',o:['Igual','Doble','Cuadruple','Mitad'],c:1,f:'p es proporcional a v.'}]},
+{id:6,n:'Energia Mecanica',t:'<h3>Energia mecanica</h3><div class=formula>Em = Ec + Ep</div><p>Ec = 1/2·m·v2 | Ep = m·g·h</p><p>Sin rozamiento: Em_i = Em_f. Con rozamiento: Wnc = dEm.</p>',l:'<b>Practica:</b> verificar conservacion en plano inclinado o pendulo.',c:'M6-2026',q:[
+{q:'1. La energia cinetica es:',o:['m·g·h','1/2·m·v2','F·d','m·v'],c:1,f:'Ec = 1/2·m·v2.'},
+{q:'2. Sin rozamiento, Em:',o:['Sube','Baja','Se conserva','Depende de m'],c:2,f:'Principio de conservacion.'},
+{q:'3. Duplicar v, Ec:',o:['Doble','Cuadruple','Igual','Mitad'],c:1,f:'Depende del cuadrado de v.'},
+{q:'4. El trabajo de fuerzas no conservativas es:',o:['Ec','Ep','Variacion de Em','E total'],c:2,f:'Wnc = dEm.'},
+{q:'5. En la cima, el vagon tiene mayor:',o:['Ec','Ep','Velocidad','Aceleracion'],c:1,f:'A mayor altura, mayor Ep.'}]},
+{id:7,n:'Fluidos y Presion',t:'<h3>Presion y densidad</h3><div class=formula>P = F/A | rho = m/V</div><h3>Hidrostatica</h3><div class=formula>P = P0 + rho·g·h</div><h3>Manometro en U</h3><div class=formula>P1 + rho1·g·h1 = P2 + rho2·g·h2</div><h3>Viscosas</h3><p>Se oponen al movimiento relativo de capas.</p>',l:'<b>Practica:</b> manometro en U casero con agua coloreada.',c:'M7-2026',q:[
+{q:'1. La presion es:',o:['F por volumen','F por area','m por volumen','E por tiempo'],c:1,f:'P = F/A.'},
+{q:'2. La presion hidrostatica depende de:',o:['Solo h','Solo rho','h y rho','Forma'],c:2,f:'P = P0 + rho·g·h.'},
+{q:'3. En el manometro en U, presiones iguales:',o:['Superficie libre','Misma altura','Fondo','Punto alto'],c:1,f:'Principio de la hidrostatica.'},
+{q:'4. Las fuerzas viscosas dependen de:',o:['Solo T','Viscosidad y velocidad','Solo rho','Forma'],c:1,f:'Viscosidad y gradiente de velocidad.'},
+{q:'5. La unidad de presion en SI es:',o:['Newton','Joule','Pascal','Watt'],c:2,f:'1 Pa = 1 N/m2.'}]}];
+var A=[
+{q:'1. Con fuerza neta cero, el cuerpo:',o:['Se detiene','MRU o reposo','Acelera','Cambia direccion'],c:1,f:'Ley de Inercia.'},
+{q:'2. Pendiente de x-t:',o:['Aceleracion','Velocidad','Fuerza','Energia'],c:1,f:'Derivada de la posicion.'},
+{q:'3. Masa triple, fuerza igual, a:',o:['Triple','Un tercio','Igual','Doble'],c:1,f:'a = F/m.'},
+{q:'4. Caida libre ideal:',o:['v constante','a constante g','a variable','v nula'],c:1,f:'g actua igual sobre todas las masas.'},
+{q:'5. Rozamiento estatico maximo:',o:['Menor','Igual','Mayor','Nulo'],c:2,f:'Cuesta mas iniciar que mantener.'},
+{q:'6. Formula de rozamiento:',o:['mu·m','mu·N','mu·g','N/mu'],c:1,f:'Depende del coeficiente y la normal.'},
+{q:'7. Dos masas con cuerda, a:',o:['Distinta','La misma','Cero','Mayor en liviana'],c:1,f:'Se mueven como un sistema.'},
+{q:'8. Fuerza resultante:',o:['Suma algebraica','Suma vectorial','Producto','Promedio'],c:1,f:'Las fuerzas son vectores.'},
+{q:'9. Ley de Hooke:',o:['F=ma','F=kx','F=mg','F=muN'],c:1,f:'Proporcionalidad directa.'},
+{q:'10. k se mide en:',o:['N','N/m','kg','J'],c:1,f:'Newtons por metro.'},
+{q:'11. Superado el limite elastico:',o:['Vuelve','Deformacion permanente','Sube k','Mas rigido'],c:1,f:'Regimen plastico.'},
+{q:'12. El dinamometro usa:',o:['Gravedad','Deformacion calibrada','Rozamiento','Presion'],c:1,f:'Ley de Hooke con escala.'},
+{q:'13. Centro de masas:',o:['Masa cero','Concentra masa traslacion','Gravedad max','Gira mas'],c:1,f:'Promedio ponderado de masa.'},
+{q:'14. Torque maximo:',o:['F paralela','F perpendicular','F nula','d cero'],c:1,f:'tau = F·d·sen90.'},
+{q:'15. Unidad de velocidad angular SI:',o:['RPM','rad/s','m/s','Hz'],c:1,f:'Radianes por segundo.'},
+{q:'16. ac depende de:',o:['Solo m','v y r','Solo r','Rozamiento'],c:1,f:'ac = v2/r.'},
+{q:'17. Cantidad de movimiento:',o:['ma','mv','Ft','1/2mv2'],c:1,f:'p = m·v.'},
+{q:'18. Impulso es igual a:',o:['Var de energia','Var de p','Trabajo neto','F·d'],c:1,f:'I = dp.'},
+{q:'19. Choque elastico conserva:',o:['Solo p','Solo Ec','p y Ec','Nada'],c:2,f:'Definicion de elastico.'},
+{q:'20. Choque 2D, conservacion:',o:['Solo x','Solo y','Ambos ejes','Suma modulos'],c:2,f:'Ley vectorial por ejes.'},
+{q:'21. Ec depende de:',o:['Solo m','m y v2','Altura','Volumen'],c:1,f:'Ec = 1/2·m·v2.'},
+{q:'22. Ep depende de:',o:['Solo m','m, g y h','Velocidad','Rozamiento'],c:1,f:'Ep = m·g·h.'},
+{q:'23.';
+</script>
+</body>
+</html>
+var A=[
+{q:'1. Con fuerza neta cero:',o:['Se detiene','MRU o reposo','Acelera','Cambia dir'],c:1,f:'Inercia.'},
+{q:'2. Pendiente x-t:',o:['Aceleracion','Velocidad','Fuerza','Energia'],c:1,f:'Derivada de posicion.'},
+{q:'3. Masa triple, a:',o:['Triple','Un tercio','Igual','Doble'],c:1,f:'a=F/m.'},
+{q:'4. Caida libre:',o:['v const','a=g','a var','v nula'],c:1,f:'g para todos.'},
+{q:'5. Estatico max:',o:['Menor','Igual','Mayor','Nulo'],c:2,f:'Iniciar cuesta mas.'},
+{q:'6. Rozamiento:',o:['mu·m','mu·N','mu·g','N/mu'],c:1,f:'Depende de N.'},
+{q:'7. Cuerda ideal:',o:['Distinta','La misma','Cero','Mayor liviana'],c:1,f:'Mismo sistema.'},
+{q:'8. Resultante:',o:['Algebraica','Vectorial','Producto','Promedio'],c:1,f:'Vectores.'},
+{q:'9. Hooke:',o:['F=ma','F=kx','F=mg','F=muN'],c:1,f:'Directa.'},
+{q:'10. k en:',o:['N','N/m','kg','J'],c:1,f:'N/m.'},
+{q:'11. Pasado limite:',o:['Vuelve','Permanente','Sube k','Rigido'],c:1,f:'Plastico.'},
+{q:'12. Dynamometro:',o:['Gravedad','Deformacion','Rozamiento','Presion'],c:1,f:'Hooke calibrado.'},
+{q:'13. C. de masas:',o:['Cero','Traslacion','Grav max','Gira mas'],c:1,f:'Ponderado.'},
+{q:'14. Torque max:',o:['Paralela','Perpendicular','Nula','d=0'],c:1,f:'sen90=1.'},
+{q:'15. Omega SI:',o:['RPM','rad/s','m/s','Hz'],c:1,f:'rad/s.'},
+{q:'16. ac:',o:['m','v y r','r','Roz'],c:1,f:'v2/r.'},
+{q:'17. p:',o:['ma','mv','Ft','1/2mv2'],c:1,f:'m·v.'},
+{q:'18. Impulso:',o:['E','dp','W','Fd'],c:1,f:'I=dp.'},
+{q:'19. Elastico:',o:['p','Ec','p y Ec','Nada'],c:2,f:'Ambos.'},
+{q:'20. 2D:',o:['x','y','x e y','Modulos'],c:2,f:'Por ejes.'},
+{q:'21. Ec:',o:['m','m y v2','h','V'],c:1,f:'1/2mv2.'},
+{q:'22. Ep:',o:['m','mg h','v','Roz'],c:1,f:'mgh.'},
+{q:'23. Em sin roz:',o:['Sube','Baja','Conserva','Calor'],c:2,f:'Conservacion.'},
+{q:'24. Trabajo roz:',o:['Positivo','Negativo','Cero','Igual Ep'],c:1,f:'Disipa.'},
+{q:'25. Al caer Ep va a:',o:['Termica','Cinetica','Elastica','Quimica'],c:1,f:'Altura baja, v sube.'},
+{q:'26. P hidro:',o:['Forma','h y rho','V','Patm'],c:1,f:'rho g h.'},
+{q:'27. Manometro U:',o:['Libre','Misma altura','Fondo','Ancho'],c:1,f:'Hidrostatica.'},
+{q:'28. Densidad:',o:['Peso/V','Masa/V','F/A','M/P'],c:1,f:'rho=m/V.'},
+{q:'29. Viscosas:',o:['Gravedad','Mov relativo','Patm','T'],c:1,f:'Resistencia al flujo.'},
+{q:'30. 1 Pa:',o:['1 Nm','1 N/m2','1 kg/m3','1 J/s'],c:1,f:'Unidad SI.'}];
+
+var st={ap:'',xp:0,tm:false,ad:false,as:0,mi:{}};
+function initM(){M.forEach(function(m){if(!st.mi[m.id])st.mi[m.id]={p1:false,p2:false,p3:false,at:0,ls:0,lc:''};});}
+var cm=null,cq=0,sc=0,sel=null,acq=0,asc=0,asel=null;
+function save(){try{if(st.ap&&!st.tm)localStorage.setItem('ape1_'+st.ap.toLowerCase(),JSON.stringify(st));}catch(e){}}
+function load(a){try{var s=localStorage.getItem('ape1_'+a.toLowerCase());if(s){var p=JSON.parse(s);for(var k in p)st[k]=p[k];}}catch(e){}initM();}
+function show(id){var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('active');var t=document.getElementById(id);if(t)t.classList.add('active');}
+function login(){try{var v=document.getElementById('ap').value.trim();if(!v){alert('Ingresá tu apellido');return;}st.ap=v;st.tm=false;load(v);document.getElementById('sname').textContent=v;renderMap();show('s-map');}catch(e){var b=document.getElementById('eb');b.style.display='block';b.textContent='ERROR login: '+e.message;}}
+function logout(){st={ap:'',xp:0,tm:false,ad:false,as:0,mi:{}};cm=null;document.getElementById('ap').value='';show('s-login');}
+function renderMap(){var pc=Math.min(st.xp/450*100,100);var b=document.getElementById('xbf');b.style.width=pc+'%';b.textContent=st.xp+' XP';document.getElementById('xpd').textContent=st.xp;var d=0;for(var k in st.mi)if(st.mi[k].p3)d++;if(st.ad)d=7;document.getElementById('msd').textContent=d;var c=document.getElementById('mc');c.innerHTML='';M.forEach(function(m,i){var ms=st.mi[m.id];var pv=i===0?true:st.mi[M[i-1].id].p3;var ad=ms.p1&&ms.p2&&ms.p3;var s='',bt='',cl='',dis='';if(st.ad){s='Acreditado por Ruta Teorica';bt='Completado';cl='completed';dis='disabled';}else if(ad){s='Completada';bt='Completada';cl='completed';dis='disabled';}else if(!pv){s='Bloqueada';bt='Bloqueada';cl='locked';dis='disabled';}else{if(!ms.p1){s='Fase 1 disponible';bt='Comenzar Lectura';}else if(!ms.p2){s='Fase 2 disponible (Intento '+(ms.at+1)+')';bt='Comenzar Evaluacion';}else{s='Fase 3 disponible';bt='Ir al Laboratorio';}}var card=document.createElement('div');card.className='mission-card '+cl;card.innerHTML='<strong>Mision '+m.id+': '+m.n+'</strong><span class=badge>+50 XP</span><p><small>'+s+'</small></p><button class=btn '+dis+' onclick=startM('+m.id+')>'+bt+'</button>';c.appendChild(card);});}
+function startM(id){for(var i=0;i<M.length;i++)if(M[i].id===id){cm=M[i];break;}var ms=st.mi[id];if(!ms.p1)startPhase(1);else if(!ms.p2)startPhase(2);else startPhase(3);}
+function startPhase(n){if(n===1){document.getElementById('p1t').textContent='Fase 1: '+cm.n;document.getElementById('p1c').innerHTML=cm.t;show('s-p1');}else if(n===2){cq=0;sc=0;sel=null;loadQ();show('s-p2');}else{document.getElementById('p3i').innerHTML=cm.l;document.getElementById('lc').value='';show('s-p3');}}
+function doneP1(){var ms=st.mi[cm.id];if(!ms.p1){ms.p1=true;st.xp+=10;save();}renderMap();show('s-map');}
+function loadQ(){var q=cm.q[cq];document.getElementById('qc').textContent=cq+1;document.getElementById('qt').textContent=q.q;var o=document.getElementById('qo');o.innerHTML='';q.o.forEach(function(op,i){var d=document.createElement('div');d.className='option';d.textContent=op;d.onclick=function(){selQ(i,d);};o.appendChild(d);});document.getElementById('qf').className='feedback';document.getElementById('qf').textContent='';document.getElementById('bn').disabled=true;sel=null;}
+function selQ(i,el){if(sel!==null)return;sel=i;var q=cm.q[cq];var fb=document.getElementById('qf');var os=document.querySelectorAll('#qo .option');for(var x=0;x<os.length;x++){if(x===q.c)os[x].classList.add('correct');else if(x===i&&i!==q.c)os[x].classList.add('wrong');}if(i===q.c){sc++;fb.className='feedback correct';fb.textContent=q.f;}else{fb.className='feedback wrong';fb.textContent='Incorrecto. '+q.f;}document.getElementById('bn').disabled=false;}
+function nextQ(){cq++;if(cq>=cm.q.length)finP2();else loadQ();}
+function finP2(){var ms=st.mi[cm.id];ms.at++;ms.ls=sc;var ok=sc>=3;if(ok&&!ms.p2)ms.p2=true;save();var a=document.getElementById('ra');if(ok){a.className='alert success';a.innerHTML='<strong>Aprobado!</strong>';}else{a.className='alert warning';a.innerHTML='<strong>Intento '+ms.at+'</strong>. Necesitas 3/5.';}document.getElementById('b3').disabled=!ok;document.getElementById('br').style.display=ok?'none':'inline-block';document.getElementById('sd').textContent=sc;show('s-p2r');}
+function retryP2(){startPhase(2);}
+function valLab(){var c=document.getElementById('lc').value.trim().toUpperCase();if(!c){alert('Ingresá el codigo');return;}if(c===cm.c||c.indexOf('M'+cm.id+'-')===0){var ms=st.mi[cm.id];ms.p3=true;ms.lc=c;st.xp+=40;save();var ad=st.ad;if(!ad){ad=true;for(var k in st.mi)if(!st.mi[k].p3){ad=false;break;}}if(ad){document.getElementById('fn').textContent=st.ap;document.getElementById('fxp').textContent=st.xp;show('s-fin');}else{renderMap();show('s-map');}}else alert('Codigo invalido.');}
+function startAlt(){acq=0;asc=0;asel=null;loadA();show('s-alt');}
+function loadA(){var q=A[acq];document.getElementById('aqc').textContent=acq+1;document.getElementById('aqt').textContent=q.q;var b=document.getElementById('axb');b.style.width=(acq/30*100)+'%';b.textContent=acq+'/30';var o=document.getElementById('aqo');o.innerHTML='';q.o.forEach(function(op,i){var d=document.createElement('div');d.className='option';d.textContent=op;d.onclick=function(){selA(i,d);};o.appendChild(d);});document.getElementById('aqf').className='feedback';document.getElementById('aqf').textContent='';document.getElementById('abn').disabled=true;asel=null;}
+function selA(i,el){if(asel!==null)return;asel=i;var q=A[acq];var fb=document.getElementById('aqf');var os=document.querySelectorAll('#aqo .option');for(var x=0;x<os.length;x++){if(x===q.c)os[x].classList.add('correct');else if(x===i&&i!==q.c)os[x].classList.add('wrong');}if(i===q.c){asc++;fb.className='feedback correct';fb.textContent=q.f;}else{fb.className='feedback wrong';fb.textContent='Incorrecto. '+q.f;}document.getElementById('abn').disabled=false;}
+function nextAlt(){acq++;if(acq>=A.length)finAlt();else loadA();}
+function finAlt(){st.as=asc;var a=document.getElementById('ara');var bt=document.getElementById('aaa');if(asc>=18){a.className='alert success';a.innerHTML='<strong>Aprobado!</strong> Puntaje '+asc+'/30.';bt.textContent='Finalizar y Acreditar';bt.className='btn success';bt.onclick=function(){st.ad=true;st.xp+=100;save();document.getElementById('fn').textContent=st.ap;document.getElementById('fxp').textContent=st.xp;show('s-fin');};}else{a.className='alert warning';a.innerHTML='<strong>Minimo 18/30.</strong> Tu puntaje: '+asc+'/30.';bt.textContent='Reintentar';bt.className='btn warning';bt.onclick=startAlt;}document.getElementById('asd').textContent=asc;show('s-altr');}
+function tLogin(){var p=document.getElementById('tp').value;if(p==='docente2026'){st.tm=true;initM();renderT();show('s-teacher');}else alert('Clave incorrecta');}
+function renderT(){var tb=document.getElementById('ttb');tb.innerHTML='';var ks=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf('ape1_')===0)ks.push(k);}if(!ks.length){tb.innerHTML='<tr><td colspan=7 style=text-align:center>Sin registros</td></tr>';return;}ks.forEach(function(k){var s=JSON.parse(localStorage.getItem(k));var mo='Misiones',lm='-',es='Sin iniciar',at=0,sc2='-',cd='-';if(s.ad){mo='Ruta Teorica';lm='N/A';es='Acreditado';sc2=s.as+'/30';cd='AUTO';}else if(s.mi){for(var i=7;i>=1;i--){var m=s.mi[i];if(m&&(m.p1||m.p2||m.p3)){lm='M'+i;at=m.at;sc2=m.ls+'/5';cd=m.lc||'-';es=m.p3?'Completa':m.p2?'En Lab':m.p1?'En Eval':'En Lectura';break;}}}tb.innerHTML+='<tr><td>'+s.ap+'</td><td>'+mo+'</td><td>'+lm+'</td><td>'+at+'</td><td>'+sc2+'</td><td>'+es+'</td><td>'+cd+'</td></tr>';});}
+function resetSt(){var a=document.getElementById('rap').value.trim();if(!a){alert('Ingresá un apellido');return;}if(confirm('Borrar progreso de '+a+'?')){localStorage.removeItem('ape1_'+a.toLowerCase());document.getElementById('rap').value='';renderT();}}
+initM();
+</script>
+</body>
+</html>
+
