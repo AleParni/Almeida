@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APE Física 2° BACH CV · Mecánica y Fluidos</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .container {
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+  }
+  h1 { color: #0f3460; text-align: center; margin-bottom: 8px; font-size: 1.7em; }
+  h2 { color: #e94560; margin-bottom: 15px; }
+  .subtitle { text-align: center; color: #16213e; margin-bottom: 20px; font-size: 1em; }
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .btn {
+    background: linear-gradient(135deg, #e94560, #0f3460);
+    color: white; border: none; padding: 10px 20px;
+    border-radius: 10px; font-size: 0.95em; cursor: pointer;
+    margin: 4px; transition: all 0.2s; font-weight: 600;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(233,69,96,0.4); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn.secondary { background: linear-gradient(135deg, #6c757d, #adb5bd); }
+  .btn.success { background: linear-gradient(135deg, #2a9d8f, #52b788); }
+  .btn.danger { background: linear-gradient(135deg, #e63946, #f77f00); }
+  .btn.warning { background: linear-gradient(135deg, #f77f00, #e94560); }
+  input[type="text"], input[type="password"] {
+    width: 100%; padding: 12px; border: 2px solid #e0e0e0;
+    border-radius: 10px; font-size: 1em; margin: 8px 0; outline: none;
+  }
+  input:focus { border-color: #e94560; }
+  .xp-bar {
+    background: #e0e0e0; border-radius: 20px; padding: 4px;
+    margin: 15px 0; overflow: hidden;
+  }
+  .xp-fill {
+    background: linear-gradient(90deg, #e94560, #f77f00);
+    height: 24px; border-radius: 16px; display: flex;
+    align-items: center; justify-content: center;
+    color: white; font-weight: bold; transition: width 0.5s;
+  }
+  .mission-card {
+    background: #f8f9fa; border-left: 5px solid #0f3460;
+    padding: 14px; margin: 10px 0; border-radius: 8px;
+    transition: transform 0.2s;
+  }
+  .mission-card.completed { border-left-color: #2a9d8f; background: #e8f5e9; }
+  .mission-card.locked { opacity: 0.5; border-left-color: #adb5bd; }
+  .mission-card:hover:not(.locked) { transform: translateX(5px); }
+  .question-box {
+    background: #fff3cd; padding: 18px; border-radius: 12px; margin: 12px 0;
+  }
+  .option {
+    background: white; padding: 11px; margin: 7px 0;
+    border-radius: 8px; cursor: pointer;
+    border: 2px solid transparent; transition: all 0.2s;
+  }
+  .option:hover { border-color: #e94560; background: #ffe8ec; }
+  .option.correct { border-color: #2a9d8f; background: #b7e4c7; }
+  .option.wrong { border-color: #e63946; background: #ffc9c9; }
+  .feedback {
+    margin-top: 10px; padding: 10px; border-radius: 8px;
+    font-size: 0.95em; display: none; line-height: 1.5;
+  }
+  .feedback.correct { background: #d4edda; color: #155724; display: block; }
+  .feedback.wrong { background: #f8d7da; color: #721c24; display: block; }
+  .badge {
+    display: inline-block; background: #e94560; color: white;
+    padding: 2px 8px; border-radius: 10px; font-size: 0.8em; margin-left: 6px;
+  }
+  .badge.xp { background: #f77f00; }
+  .alert { padding: 12px; border-radius: 8px; margin: 10px 0; }
+  .alert.warning { background: #fff3cd; border-left: 4px solid #f77f00; color: #856404; }
+  .alert.info { background: #d1ecf1; border-left: 4px solid #0f3460; color: #0c5460; }
+  .alert.success { background: #d4edda; border-left: 4px solid #2a9d8f; color: #155724; }
+  .concept-box {
+    background: linear-gradient(135deg, #fff3cd, #ffe8ec);
+    padding: 18px; border-radius: 12px; margin: 12px 0; line-height: 1.6;
+  }
+  .concept-box h3 { color: #0f3460; margin-bottom: 8px; }
+  .formula {
+    background: white; padding: 8px; border-radius: 6px;
+    text-align: center; font-family: 'Courier New', monospace;
+    margin: 6px 0; border-left: 3px solid #e94560;
+  }
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 15px; padding-bottom: 12px; border-bottom: 2px solid #e0e0e0;
+  }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.85em; }
+  th, td { padding: 7px; border: 1px solid #e0e0e0; text-align: left; }
+  th { background: #0f3460; color: white; }
+  .progress-text { font-size: 0.9em; color: #6c757d; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="screen-login" class="screen active">
+    <h1>🔬 APE Física 2° BACH CV</h1>
+    <p class="subtitle">Mecánica y Fluidos · Sistema de Rutas Andamiadas</p>
+    <div class="alert info">🚪 <strong>Acceso a Ruta APE</strong><br>Ingresá tu <strong>Apellido</strong> para cargar tu progreso.</div>
+    <input type="text" id="apellido" placeholder="Ej: García" />
+    <button class="btn" onclick="login()">🔓 Ingresar a mi Ruta</button>
+    <button class="btn secondary" onclick="showScreen('screen-teacher-login')">🔑 Acceso Docente</button>
+  </div>
+
+  <!-- MAPA -->
+  <div id="screen-map" class="screen">
+    <div class="top-bar">
+      <button class="btn secondary" onclick="logout()">← Volver</button>
+      <div style="text-align:right;">
+        <span id="student-name" style="font-weight:600;"></span><br>
+        <small>XP: <span id="xp-display">0</span> · Misiones: <span id="missions-display">0</span>/7</small>
+      </div>
+    </div>
+    <h2>🗺️ Mapa de Misiones</h2>
+    <div class="xp-bar"><div class="xp-fill" id="xp-bar-fill" style="width:0%">0 XP</div></div>
+    
+    <div class="alert info" style="margin-bottom:15px;">
+      💡 <strong>¿No puedes asistir al laboratorio?</strong><br>
+      Puedes completar la <strong>Ruta Teórica Alternativa</strong> (30 preguntas con retroalimentación) para acreditar los contenidos prácticos.
+    </div>
+    <button class="btn warning" onclick="startAlternativeRoute()" style="width:100%; margin-bottom:15px;">📝 Iniciar Ruta Teórica Alternativa (30 Preguntas)</button>
+    
+    <div id="missions-container"></div>
+  </div>
+
+  <!-- FASE 1: LECTURA -->
+  <div id="screen-phase1" class="screen">
+    <h2 id="phase1-title">📘 Fase 1: Lectura Clave</h2>
+    <div class="concept-box" id="phase1-content"></div>
+    <button class="btn success" onclick="completePhase1()">✅ He leído y comprendido</button>
+    <button class="btn secondary" onclick="showScreen('screen-map')">← Volver</button>
+  </div>
+
+  <!-- FASE 2: EVALUACIÓN -->
+  <div id="screen-phase2" class="screen">
+    <h2>🧠 Fase 2: Evaluación Cognitiva</h2>
+    <p class="progress-text">Pregunta <span id="q-current">1</span> de 5.</p>
+    <div class="question-box">
+      <p id="q-text" style="font-weight:600; margin-bottom:12px;"></p>
+      <div id="q-options"></div>
+      <div id="q-feedback" class="feedback"></div>
+    </div>
+    <button class="btn" id="btn-next" onclick="nextQuestion()" disabled>Siguiente →</button>
+  </div>
+
+  <!-- RESULTADO FASE 2 -->
+  <div id="screen-phase2-result" class="screen">
+    <h2>📊 Resultado de la Evaluación</h2>
+    <div class="alert" id="result-alert"></div>
+    <p>Puntaje: <strong><span id="score-display">0</span> / 5</strong></p>
+    <button class="btn" id="btn-retry" onclick="retryPhase2()">🔄 Reintentar</button>
+    <button class="btn success" id="btn-to-phase3" onclick="startPhase(3)" disabled>✅ Ir al Laboratorio</button>
+    <button class="btn secondary" onclick="showScreen('screen-map')">← Volver</button>
+  </div>
+
+  <!-- FASE 3: PRÁCTICA -->
+  <div id="screen-phase3" class="screen">
+    <h2>🔬 Fase 3: Desafío Práctico</h2>
+    <div class="alert info" id="phase3-instruction"></div>
+    <p style="margin:12px 0;">📸 Realizá el montaje y pedile al docente el <strong>Código de Validación</strong>:</p>
+    <input type="text" id="lab-code" placeholder="Código del docente" />
+    <button class="btn success" onclick="validateLab()">🔓 Validar</button>
+    <button class="btn secondary" onclick="showScreen('screen-map')">← Volver</button>
+  </div>
+
+  <!-- RUTA TEÓRICA ALTERNATIVA (30 PREGUNTAS) -->
+  <div id="screen-alt-route" class="screen">
+    <h2>📝 Ruta Teórica Alternativa Integral</h2>
+    <p class="progress-text">Pregunta <span id="alt-q-current">1</span> de 30. <strong>Lee atentamente la retroalimentación para aprender.</strong></p>
+    <div class="xp-bar"><div class="xp-fill" id="alt-xp-bar" style="width:0%">0/30</div></div>
+    <div class="question-box">
+      <p id="alt-q-text" style="font-weight:600; margin-bottom:12px;"></p>
+      <div id="alt-q-options"></div>
+      <div id="alt-q-feedback" class="feedback"></div>
+    </div>
+    <button class="btn" id="alt-btn-next" onclick="nextAltQuestion()" disabled>Siguiente →</button>
+    <button class="btn secondary" onclick="showScreen('screen-map')">← Volver al Mapa</button>
+  </div>
+
+  <!-- RESULTADO RUTA ALTERNATIVA -->
+  <div id="screen-alt-result" class="screen">
+    <h2>🏆 Resultado de la Ruta Teórica</h2>
+    <div class="alert" id="alt-result-alert"></div>
+    <p style="font-size:1.2em; margin:15px 0;">Puntaje final: <strong><span id="alt-score-display">0</span> / 30</strong></p>
+    <p><small>Esta ruta acredita los contenidos prácticos y teóricos de las 7 misiones.</small></p>
+    <button class="btn success" onclick="finishAltRoute()">✅ Finalizar y Guardar Progreso</button>
+    <button class="btn secondary" onclick="showScreen('screen-map')">← Volver al Mapa</button>
+  </div>
+
+  <!-- FINAL -->
+  <div id="screen-final" class="screen">
+    <h1>🏆 ¡Ruta Completada!</h1>
+    <div class="alert success">
+      <strong>Felicitaciones <span id="final-name"></span></strong><br>
+      Has completado la APE de Mecánica y Fluidos.
+    </div>
+    <p>XP total: <strong><span id="final-xp">0</span></strong></p>
+    <button class="btn" onclick="logout()">🚪 Salir</button>
+  </div>
+
+  <!-- DOCENTE -->
+  <div id="screen-teacher-login" class="screen">
+    <h2>🔑 Panel Docente</h2>
+    <input type="password" id="teacher-pass" placeholder="Clave docente" />
+    <button class="btn" onclick="teacherLogin()">Entrar</button>
+    <button class="btn secondary" onclick="showScreen('screen-login')">← Cerrar</button>
+  </div>
+
+  <div id="screen-teacher" class="screen">
+    <h2>📊 Registro de Progreso</h2>
+    <table id="teacher-table">
+      <thead><tr><th>Apellido</th><th>Modo</th><th>Misión</th><th>Intentos</th><th>Puntaje</th><th>Estado</th><th>Código</th></tr></thead>
+      <tbody id="teacher-tbody"></tbody>
+    </table>
+    <div class="alert warning" style="margin-top:15px;">⚠️ Solo el docente puede reiniciar progresos.</div>
+    <input type="text" id="reset-apellido" placeholder="Apellido a reiniciar" />
+    <button class="btn danger" onclick="resetStudent()">🗑️ Borrar Progreso</button>
+    <button class="btn secondary" onclick="logout()">← Cerrar</button>
+  </div>
+
+</div>
+
+<script>
+// ============ DATOS DE LAS 7 MISIONES ============
+const MISSIONS = [
+  { id: 1, icon: '🚀', name: 'Cinemática y Dinámica Lineal', theory: `<h3>🚀 Leyes de Newton y Dinámica</h3><p><strong>1ª Ley:</strong> Un cuerpo mantiene su estado de reposo o MRU si la fuerza neta es cero.</p><p><strong>2ª Ley:</strong> ΣF = m · a</p><p><strong>3ª Ley:</strong> Acción y reacción son iguales y opuestas, pero actúan sobre cuerpos diferentes.</p><h3>📈 Gráficos</h3><p>Pendiente de x-t = velocidad. Pendiente de v-t = aceleración.</p>`, lab: '📏 <strong>Práctica:</strong> Estudio dinámico de un movimiento rectilíneo y caída libre. Graficá x-t y v-t.', code: 'M1-2026', questions: [
+      { q: "1. Si la fuerza neta sobre un cuerpo es cero, el cuerpo:", opts: ["Siempre está en reposo", "Se mueve con aceleración constante", "Mantiene su estado de reposo o MRU", "Se detiene gradualmente"], correct: 2, fb: "✅ Correcto: 1ª Ley de Newton (Inercia)." },
+      { q: "2. La pendiente del gráfico posición-tiempo representa:", opts: ["La aceleración", "La velocidad", "La fuerza neta", "El desplazamiento"], correct: 1, fb: "✅ Correcto: La derivada de la posición respecto al tiempo es la velocidad." },
+      { q: "3. Si duplicamos la masa manteniendo la fuerza constante, la aceleración:", opts: ["Se duplica", "Se mantiene", "Se reduce a la mitad", "Se cuadruplica"], correct: 2, fb: "✅ Correcto: a = F/m, son inversamente proporcionales." },
+      { q: "4. En caída libre (sin rozamiento), la aceleración es:", opts: ["Cero", "Variable", "Constante e igual a g", "Depende de la masa"], correct: 2, fb: "✅ Correcto: Todos los cuerpos caen con g ≈ 9.8 m/s²." },
+      { q: "5. Las fuerzas de acción y reacción:", opts: ["Se anulan entre sí", "Actúan sobre el mismo cuerpo", "Actúan sobre cuerpos diferentes", "Son siempre mayores las de acción"], correct: 2, fb: "✅ Correcto: Al actuar sobre cuerpos distintos, no se anulan." }
+    ]
+  },
+  { id: 2, icon: '🔗', name: 'Fuerzas y Sistemas Vinculados', theory: `
