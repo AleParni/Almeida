@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APE Física 2° BACH CV · Mecánica y Fluidos</title>
+<title>ape1</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
   body {
@@ -22,7 +22,7 @@
     max-width: 800px;
     width: 100%;
   }
-  h1 { color: #0f3460; text-align: center; margin-bottom: 8px; font-size: 1.7em; }
+  h1 { color: #0f3460; text-align: center; margin-bottom: 8px; font-size: 1.8em; }
   h2 { color: #e94560; margin-bottom: 15px; }
   .subtitle { text-align: center; color: #16213e; margin-bottom: 20px; font-size: 1em; }
   .screen { display: none; }
@@ -114,9 +114,9 @@
 
   <!-- LOGIN -->
   <div id="screen-login" class="screen active">
-    <h1>🔬 APE Física 2° BACH CV</h1>
-    <p class="subtitle">Mecánica y Fluidos · Sistema de Rutas Andamiadas</p>
-    <div class="alert info">🚪 <strong>Acceso a Ruta APE</strong><br>Ingresá tu <strong>Apellido</strong> para cargar tu progreso.</div>
+    <h1>ape1</h1>
+    <p class="subtitle">Sistema de Rutas Andamiadas</p>
+    <div class="alert info">🚪 <strong>Acceso a ape1</strong><br>Ingresá tu <strong>Apellido</strong> para cargar tu progreso.</div>
     <input type="text" id="apellido" placeholder="Ej: García" />
     <button class="btn" onclick="login()">🔓 Ingresar a mi Ruta</button>
     <button class="btn secondary" onclick="showScreen('screen-teacher-login')">🔑 Acceso Docente</button>
@@ -136,7 +136,7 @@
     
     <div class="alert info" style="margin-bottom:15px;">
       💡 <strong>¿No puedes asistir al laboratorio?</strong><br>
-      Puedes completar la <strong>Ruta Teórica Alternativa</strong> (30 preguntas con retroalimentación) para acreditar los contenidos prácticos.
+      Podés completar la <strong>Ruta Teórica Alternativa</strong> (30 preguntas con retroalimentación) para acreditar todos los contenidos.
     </div>
     <button class="btn warning" onclick="startAlternativeRoute()" style="width:100%; margin-bottom:15px;">📝 Iniciar Ruta Teórica Alternativa (30 Preguntas)</button>
     
@@ -186,7 +186,7 @@
   <!-- RUTA TEÓRICA ALTERNATIVA (30 PREGUNTAS) -->
   <div id="screen-alt-route" class="screen">
     <h2>📝 Ruta Teórica Alternativa Integral</h2>
-    <p class="progress-text">Pregunta <span id="alt-q-current">1</span> de 30. <strong>Lee atentamente la retroalimentación para aprender.</strong></p>
+    <p class="progress-text">Pregunta <span id="alt-q-current">1</span> de 30. <strong>Lee atentamente la retroalimentación.</strong></p>
     <div class="xp-bar"><div class="xp-fill" id="alt-xp-bar" style="width:0%">0/30</div></div>
     <div class="question-box">
       <p id="alt-q-text" style="font-weight:600; margin-bottom:12px;"></p>
@@ -203,7 +203,7 @@
     <div class="alert" id="alt-result-alert"></div>
     <p style="font-size:1.2em; margin:15px 0;">Puntaje final: <strong><span id="alt-score-display">0</span> / 30</strong></p>
     <p><small>Esta ruta acredita los contenidos prácticos y teóricos de las 7 misiones.</small></p>
-    <button class="btn success" onclick="finishAltRoute()">✅ Finalizar y Guardar Progreso</button>
+    <button class="btn success" id="btn-alt-action">Acción</button>
     <button class="btn secondary" onclick="showScreen('screen-map')">← Volver al Mapa</button>
   </div>
 
@@ -212,7 +212,7 @@
     <h1>🏆 ¡Ruta Completada!</h1>
     <div class="alert success">
       <strong>Felicitaciones <span id="final-name"></span></strong><br>
-      Has completado la APE de Mecánica y Fluidos.
+      Has completado ape1.
     </div>
     <p>XP total: <strong><span id="final-xp">0</span></strong></p>
     <button class="btn" onclick="logout()">🚪 Salir</button>
@@ -251,4 +251,464 @@ const MISSIONS = [
       { q: "5. Las fuerzas de acción y reacción:", opts: ["Se anulan entre sí", "Actúan sobre el mismo cuerpo", "Actúan sobre cuerpos diferentes", "Son siempre mayores las de acción"], correct: 2, fb: "✅ Correcto: Al actuar sobre cuerpos distintos, no se anulan." }
     ]
   },
-  { id: 2, icon: '🔗', name: 'Fuerzas y Sistemas Vinculados', theory: `
+  { id: 2, icon: '🔗', name: 'Fuerzas y Sistemas Vinculados', theory: `<h3>🔗 Sistemas Vinculados</h3><p>Cuerpos conectados comparten la misma aceleración. Se analiza cada uno con ΣF = m·a.</p><h3>🛑 Rozamiento</h3><p>f = μ · N. El rozamiento estático máximo es mayor que el cinético (μₑ > μₖ).</p>`, lab: '📏 <strong>Práctica:</strong> Medición de fuerzas de rozamiento con dinamómetro sobre distintas superficies.', code: 'M2-2026', questions: [
+      { q: "1. En dos bloques conectados por una cuerda ideal, la aceleración es:", opts: ["Diferente para cada bloque", "La misma para ambos", "Depende solo del más pesado", "Cero"], correct: 1, fb: "✅ Correcto: Al estar vinculados, se mueven juntos." },
+      { q: "2. La fuerza de rozamiento cinético es:", opts: ["Mayor que el estático máximo", "Igual al estático máximo", "Menor que el estático máximo", "Independiente de la normal"], correct: 2, fb: "✅ Correcto: Cuesta más iniciar el movimiento que mantenerlo (μₖ < μₑ)." },
+      { q: "3. La fuerza de rozamiento se calcula como:", opts: ["f = μ · m", "f = μ · N", "f = μ · g", "f = μ · v"], correct: 1, fb: "✅ Correcto: Depende del coeficiente de rozamiento y la fuerza normal." },
+      { q: "4. La resultante de varias fuerzas se obtiene:", opts: ["Sumando sus módulos", "Restando las mayores", "Mediante suma vectorial", "Multiplicando sus módulos"], correct: 2, fb: "✅ Correcto: Las fuerzas son vectores." },
+      { q: "5. Si un bloque está en reposo sobre un plano horizontal sin fuerzas horizontales, el rozamiento es:", opts: ["μₑ·N", "μₖ·N", "Cero", "Igual al peso"], correct: 2, fb: "✅ Correcto: Sin tendencia al movimiento, no hay fuerza de rozamiento." }
+    ]
+  },
+  { id: 3, icon: '🧲', name: 'Elasticidad y Dinamómetro', theory: `<h3>🧲 Ley de Hooke</h3><p>F = k · x. La fuerza elástica es proporcional a la deformación dentro del límite elástico.</p><p><strong>k</strong>: constante elástica [N/m].</p>`, lab: '📏 <strong>Práctica:</strong> Construcción de un dinamómetro. Graficar F vs x para hallar k.', code: 'M3-2026', questions: [
+      { q: "1. La Ley de Hooke establece que la fuerza es:", opts: ["Inversamente proporcional a la deformación", "Proporcional a la deformación", "Independiente de la deformación", "Proporcional al cuadrado de la deformación"], correct: 1, fb: "✅ Correcto: F = k·x (proporcionalidad directa)." },
+      { q: "2. La constante elástica k se mide en:", opts: ["N", "N/m", "kg/m", "J/m"], correct: 1, fb: "✅ Correcto: Despejando k = F/x, las unidades son N/m." },
+      { q: "3. Si duplicamos la fuerza aplicada a un resorte (dentro del límite elástico), la deformación:", opts: ["Se mantiene", "Se duplica", "Se cuadruplica", "Se reduce a la mitad"], correct: 1, fb: "✅ Correcto: Por la proporcionalidad directa de Hooke." },
+      { q: "4. Un dinamómetro mide fuerzas basándose en:", opts: ["La gravedad", "La Ley de Hooke", "El rozamiento", "La inercia"], correct: 1, fb: "✅ Correcto: Usa la deformación calibrada de un resorte." },
+      { q: "5. Fuera del límite elástico, el material:", opts: ["Sigue la Ley de Hooke", "Se rompe inmediatamente", "Sufre deformación permanente", "Aumenta su constante k"], correct: 2, fb: "✅ Correcto: Pierde su capacidad de recuperar la forma original." }
+    ]
+  },
+  { id: 4, icon: '🔄', name: 'Rotación y Sólidos', theory: `<h3>🔄 Centro de Masas</h3><p>Punto donde se concentra la masa para efectos de traslación.</p><h3>⚖️ Momento de Fuerza</h3><p>τ = F · d⊥. Capacidad de producir rotación.</p><h3>🌀 Movimiento Circular</h3><p>a꜀ = v²/r. Siempre apunta al centro.</p>`, lab: '📏 <strong>Práctica:</strong> Movimiento circular. Medir período y calcular aceleración centrípeta.', code: 'M4-2026', questions: [
+      { q: "1. El momento de una fuerza (torque) depende de:", opts: ["Solo la fuerza", "Solo la distancia al eje", "La fuerza y el brazo de palanca", "La masa del cuerpo"], correct: 2, fb: "✅ Correcto: τ = F·d⊥." },
+      { q: "2. La velocidad angular ω se mide en:", opts: ["m/s", "rad/s", "rev/s", "N·m"], correct: 1, fb: "✅ Correcto: Radianes por segundo es la unidad del SI." },
+      { q: "3. La aceleración centrípeta apunta:", opts: ["En dirección del movimiento", "Hacia afuera del centro", "Hacia el centro de la trayectoria", "En dirección tangente"], correct: 2, fb: "✅ Correcto: Es la responsable de cambiar la dirección de la velocidad." },
+      { q: "4. El centro de masas de un sistema es:", opts: ["Siempre el centro geométrico", "El punto equivalente para el movimiento de traslación", "El punto más pesado", "El punto más alejado"], correct: 1, fb: "✅ Correcto: Se comporta como si toda la masa estuviera allí." },
+      { q: "5. Si duplicamos la velocidad en un MCU, la aceleración centrípeta:", opts: ["Se mantiene", "Se duplica", "Se cuadruplica", "Se reduce a la mitad"], correct: 2, fb: "✅ Correcto: a꜀ = v²/r, depende del cuadrado de la velocidad." }
+    ]
+  },
+  { id: 5, icon: '💥', name: 'Impulso y Choques', theory: `<h3>💥 Cantidad de Movimiento</h3><p>p⃗ = m · v⃗</p><h3>⚡ Impulso</h3><p>I⃗ = F⃗ · Δt = Δp⃗</p><p>En sistemas aislados, la cantidad de movimiento total se conserva (Σpᵢ = Σpf), analizando componentes x e y por separado en 2D.</p>`, lab: '📏 <strong>Práctica:</strong> Choque de dos esferas. Verificar conservación de p en 2D con video.', code: 'M5-2026', questions: [
+      { q: "1. La cantidad de movimiento se define como:", opts: ["m · a", "m · v", "F · t", "m · g"], correct: 1, fb: "✅ Correcto: p⃗ = m·v⃗." },
+      { q: "2. El impulso es igual a:", opts: ["La fuerza por la masa", "La variación de cantidad de movimiento", "La energía cinética", "El trabajo realizado"], correct: 1, fb: "✅ Correcto: Teorema del impulso y cantidad de movimiento." },
+      { q: "3. En un sistema aislado, la cantidad de movimiento total:", opts: ["Aumenta", "Disminuye", "Se conserva", "Depende de las masas"], correct: 2, fb: "✅ Correcto: Ley de conservación fundamental." },
+      { q: "4. En un choque en 2D, la conservación se aplica:", opts: ["Solo en x", "Solo en y", "En x y en y por separado", "En la dirección del choque"], correct: 2, fb: "✅ Correcto: Es una ley vectorial, se cumple en cada eje." },
+      { q: "5. Si duplicamos la velocidad de un cuerpo, su cantidad de movimiento:", opts: ["Se mantiene", "Se duplica", "Se cuadruplica", "Se reduce a la mitad"], correct: 1, fb: "✅ Correcto: p es directamente proporcional a v." }
+    ]
+  },
+  { id: 6, icon: '⚡', name: 'Energía Mecánica', theory: `<h3>⚡ Energía Mecánica</h3><p>Em = Ec + Ep</p><p>Ec = ½·m·v² | Ep = m·g·h</p><h3>🔋 Conservación</h3><p>Sin rozamiento: Emᵢ = Emf. Con rozamiento: Wnc = ΔEm.</p>`, lab: '📏 <strong>Práctica:</strong> Verificación de conservación de energía en plano inclinado o péndulo.', code: 'M6-2026', questions: [
+      { q: "1. La energía cinética se calcula como:", opts: ["m·g·h", "½·m·v²", "F·d", "m·v"], correct: 1, fb: "✅ Correcto: Ec = ½·m·v²." },
+      { q: "2. En ausencia de rozamiento, la energía mecánica total:", opts: ["Aumenta", "Disminuye", "Se conserva", "Depende de la masa"], correct: 2, fb: "✅ Correcto: Principio de conservación de la energía mecánica." },
+      { q: "3. Si duplicamos la velocidad, la energía cinética:", opts: ["Se duplica", "Se cuadruplica", "Se mantiene", "Se reduce a la mitad"], correct: 1, fb: "✅ Correcto: Ec depende del cuadrado de la velocidad." },
+      { q: "4. El trabajo de las fuerzas no conservativas es igual a:", opts: ["La energía cinética", "La energía potencial", "La variación de energía mecánica", "La energía total"], correct: 2, fb: "✅ Correcto: Wnc = ΔEm." },
+      { q: "5. En la cima de una montaña rusa, el vagón tiene mayor:", opts: ["Energía cinética", "Energía potencial", "Velocidad", "Aceleración"], correct: 1, fb: "✅ Correcto: A mayor altura, mayor Ep gravitatoria." }
+    ]
+  },
+  { id: 7, icon: '💧', name: 'Fluidos y Presión', theory: `<h3>💧 Presión y Densidad</h3><p>P = F/A | ρ = m/V</p><h3>💧 Presión Hidrostática</h3><p>P = P₀ + ρ·g·h</p><h3>📏 Manómetro en U</h3><p>Iguala presiones a la misma altura: P₁ + ρ₁·g·h₁ = P₂ + ρ₂·g·h₂</p><h3>🌀 Fuerzas Viscosas</h3><p>Se oponen al movimiento relativo de capas de fluido.</p>`, lab: '📏 <strong>Práctica:</strong> Manómetro en U casero. Medir diferencias de presión con agua coloreada.', code: 'M7-2026', questions: [
+      { q: "1. La presión se define como:", opts: ["Fuerza por unidad de volumen", "Fuerza por unidad de área", "Masa por unidad de volumen", "Energía por unidad de tiempo"], correct: 1, fb: "✅ Correcto: P = F/A." },
+      { q: "2. La presión hidrostática depende de:", opts: ["Solo la profundidad", "Solo la densidad", "La profundidad y la densidad del fluido", "La forma del recipiente"], correct: 2, fb: "✅ Correcto: P = P₀ + ρ·g·h." },
+      { q: "3. En un manómetro en U, las presiones se igualan:", opts: ["En la superficie libre", "A la misma altura en ambos brazos", "En el fondo del tubo", "En el punto más alto"], correct: 1, fb: "✅ Correcto: Principio fundamental de la hidrostática." },
+      { q: "4. Las fuerzas viscosas dependen de:", opts: ["Solo la temperatura", "La viscosidad y la velocidad relativa", "Solo la densidad", "La forma del recipiente"], correct: 1, fb: "✅ Correcto: La viscosidad y el gradiente de velocidad las determinan." },
+      { q: "5. La unidad de presión en el SI es:", opts: ["Newton", "Joule", "Pascal", "Watt"], correct: 2, fb: "✅ Correcto: 1 Pa = 1 N/m²." }
+    ]
+  }
+];
+
+// ============ 30 PREGUNTAS RUTA ALTERNATIVA ============
+const ALT_QUESTIONS = [
+  { q: "1. Según la 1ª Ley de Newton, un cuerpo con fuerza neta cero:", opts: ["Se detiene", "Mantiene reposo o MRU", "Acelera", "Cambia de dirección"], correct: 1, fb: "✅ Es la Ley de Inercia." },
+  { q: "2. La pendiente en un gráfico posición-tiempo representa:", opts: ["Aceleración", "Velocidad", "Fuerza", "Energía"], correct: 1, fb: "✅ La derivada de la posición es la velocidad." },
+  { q: "3. Si la masa se triplica y la fuerza se mantiene, la aceleración:", opts: ["Se triplica", "Se reduce a un tercio", "No cambia", "Se duplica"], correct: 1, fb: "✅ a = F/m, son inversamente proporcionales." },
+  { q: "4. En caída libre ideal, todos los cuerpos caen con:", opts: ["Velocidad constante", "Aceleración constante g", "Aceleración variable", "Velocidad nula"], correct: 1, fb: "✅ La gravedad actúa igual sobre todas las masas." },
+  { q: "5. El rozamiento estático máximo es generalmente:", opts: ["Menor que el cinético", "Igual al cinético", "Mayor que el cinético", "Nulo"], correct: 2, fb: "✅ Cuesta más iniciar el movimiento que mantenerlo." },
+  { q: "6. La fórmula de la fuerza de rozamiento es:", opts: ["f = μ·m", "f = μ·N", "f = μ·g", "f = N/μ"], correct: 1, fb: "✅ Depende del coeficiente y la fuerza normal." },
+  { q: "7. En un sistema de dos masas unidas por una cuerda, la aceleración es:", opts: ["Distinta para cada una", "La misma para ambas", "Cero siempre", "Mayor en la más liviana"], correct: 1, fb: "✅ Al estar vinculadas, se mueven como un solo sistema." },
+  { q: "8. La fuerza resultante se calcula mediante:", opts: ["Suma algebraica", "Suma vectorial", "Producto de fuerzas", "Promedio de fuerzas"], correct: 1, fb: "✅ Las fuerzas son magnitudes vectoriales." },
+  { q: "9. La Ley de Hooke se expresa como:", opts: ["F = m·a", "F = k·x", "F = m·g", "F = μ·N"], correct: 1, fb: "✅ Fuerza proporcional a la deformación." },
+  { q: "10. La constante elástica 'k' se mide en:", opts: ["N", "N/m", "kg", "J"], correct: 1, fb: "✅ Newtons por metro." },
+  { q: "11. Si se supera el límite elástico de un resorte:", opts: ["Vuelve a su forma original", "Se deforma permanentemente", "Aumenta su k", "Se vuelve más rígido"], correct: 1, fb: "✅ Entra en régimen plástico." },
+  { q: "12. Un dinamómetro mide fuerzas gracias a:", opts: ["La gravedad", "La deformación elástica calibrada", "El rozamiento", "La presión"], correct: 1, fb: "✅ Aplica la Ley de Hooke con una escala conocida." },
+  { q: "13. El centro de masas es el punto donde:", opts: ["La masa es cero", "Se concentra la masa para efectos de traslación", "La gravedad es máxima", "El cuerpo gira más rápido"], correct: 1, fb: "✅ Es el promedio ponderado de la distribución de masa." },
+  { q: "14. El momento de una fuerza (torque) es máximo cuando:", opts: ["La fuerza es paralela al brazo", "La fuerza es perpendicular al brazo", "La fuerza es nula", "El brazo es cero"], correct: 1, fb: "✅ τ = F·d·sen(90°) = F·d." },
+  { q: "15. La unidad de velocidad angular en el SI es:", opts: ["RPM", "rad/s", "m/s", "Hz"], correct: 1, fb: "✅ Radianes por segundo." },
+  { q: "16. La aceleración centrípeta en un MCU depende de:", opts: ["Solo de la masa", "De la velocidad y el radio", "Solo del radio", "De la fuerza de rozamiento"], correct: 1, fb: "✅ a꜀ = v²/r." },
+  { q: "17. La cantidad de movimiento (momento lineal) es:", opts: ["m·a", "m·v", "F·t", "½·m·v²"], correct: 1, fb: "✅ p⃗ = m·v⃗." },
+  { q: "18. El impulso mecánico es igual a:", opts: ["La variación de energía", "La variación de cantidad de movimiento", "El trabajo neto", "La fuerza por la distancia"], correct: 1, fb: "✅ Teorema del impulso: I = Δp." },
+  { q: "19. En un choque elástico en sistema aislado, se conservan:", opts: ["Solo la cantidad de movimiento", "Solo la energía cinética", "Cantidad de movimiento y energía cinética", "Ninguna"], correct: 2, fb: "✅ Es la definición de choque elástico." },
+  { q: "20. En un choque en 2D, la conservación del momento se aplica:", opts: ["Solo al eje x", "Solo al eje y", "A ambos ejes por separado", "A la suma de módulos"], correct: 2, fb: "✅ Es una ley vectorial, componente a componente." },
+  { q: "21. La energía cinética de un cuerpo depende de:", opts: ["Solo su masa", "Su masa y el cuadrado de su velocidad", "Su altura", "Su volumen"], correct: 1, fb: "✅ Ec = ½·m·v²." },
+  { q: "22. La energía potencial gravitatoria depende de:", opts: ["Solo la masa", "La masa, la gravedad y la altura", "La velocidad", "El rozamiento"], correct: 1, fb: "✅ Ep = m·g·h." },
+  { q: "23. Si no hay fuerzas no conservativas, la energía mecánica:", opts: ["Aumenta", "Disminuye", "Se conserva", "Se transforma en calor"], correct: 2, fb: "✅ Principio de conservación de la energía mecánica." },
+  { q: "24. El trabajo de la fuerza de rozamiento es:", opts: ["Siempre positivo", "Siempre negativo", "Cero", "Igual a la energía potencial"], correct: 1, fb: "✅ Se opone al desplazamiento, disipando energía." },
+  { q: "25. Al caer un objeto, su energía potencial se transforma en:", opts: ["Energía térmica", "Energía cinética", "Energía elástica", "Energía química"], correct: 1, fb: "✅ La altura disminuye y la velocidad aumenta." },
+  { q: "26. La presión hidrostática en un punto de un líquido depende de:", opts: ["La forma del recipiente", "La profundidad y la densidad", "El volumen total", "La presión atmosférica solamente"], correct: 1, fb: "✅ P = ρ·g·h." },
+  { q: "27. En un manómetro en U, la presión es igual:", opts: ["En las superficies libres", "A la misma altura en ambos brazos", "En el fondo siempre", "En el brazo más ancho"], correct: 1, fb: "✅ Principio fundamental de la hidrostática." },
+  { q: "28. La densidad se define como:", opts: ["Peso por unidad de volumen", "Masa por unidad de volumen", "Fuerza por unidad de área", "Masa por unidad de peso"], correct: 1, fb: "✅ ρ = m/V." },
+  { q: "29. Las fuerzas viscosas en un fluido se oponen a:", opts: ["La gravedad", "El movimiento relativo entre capas", "La presión atmosférica", "La temperatura"], correct: 1, fb: "✅ La viscosidad es la resistencia al flujo." },
+  { q: "30. 1 Pascal equivale a:", opts: ["1 N·m", "1 N/m²", "1 kg/m³", "1 J/s"], correct: 1, fb: "✅ Es la unidad de presión en el SI." }
+];
+
+// ============ ESTADO ============
+let state = {
+  apellido: '', xp: 0, teacherMode: false, altRouteDone: false, altScore: 0,
+  missions: {}
+};
+
+function initMissions() {
+  MISSIONS.forEach(m => {
+    if (!state.missions[m.id]) {
+      state.missions[m.id] = { phase1Done:false, phase2Done:false, phase3Done:false, attempts:0, lastScore:0, labCode:'' };
+    }
+  });
+}
+
+let currentMission = null;
+let currentQ = 0, score = 0, selectedAnswer = null;
+let altCurrentQ = 0, altScore = 0, altSelected = null;
+
+// ============ PERSISTENCIA ============
+function saveState() {
+  if (state.apellido && !state.teacherMode) {
+    localStorage.setItem('ape1_' + state.apellido.toLowerCase(), JSON.stringify(state));
+  }
+}
+function loadState(apellido) {
+  const saved = localStorage.getItem('ape1_' + apellido.toLowerCase());
+  if (saved) state = { ...state, ...JSON.parse(saved), apellido };
+  initMissions();
+}
+
+// ============ NAVEGACIÓN ============
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function login() {
+  const ap = document.getElementById('apellido').value.trim();
+  if (!ap) { alert('Ingresá tu apellido'); return; }
+  state.apellido = ap;
+  state.teacherMode = false;
+  loadState(ap);
+  document.getElementById('student-name').textContent = '👤 ' + ap;
+  renderMap();
+  showScreen('screen-map');
+}
+
+function logout() {
+  state = { apellido:'', xp:0, teacherMode:false, altRouteDone:false, altScore:0, missions:{} };
+  currentMission = null;
+  document.getElementById('apellido').value = '';
+  showScreen('screen-login');
+}
+
+// ============ MAPA ============
+function renderMap() {
+  const pct = Math.min((state.xp / 450) * 100, 100);
+  const bar = document.getElementById('xp-bar-fill');
+  bar.style.width = pct + '%';
+  bar.textContent = state.xp + ' XP';
+  document.getElementById('xp-display').textContent = state.xp;
+  
+  let done = 0;
+  Object.values(state.missions).forEach(m => { if (m.phase3Done) done++; });
+  if (state.altRouteDone) done = 7;
+  document.getElementById('missions-display').textContent = done;
+
+  const container = document.getElementById('missions-container');
+  container.innerHTML = '';
+  MISSIONS.forEach((m, idx) => {
+    const ms = state.missions[m.id];
+    const prevDone = idx === 0 ? true : state.missions[MISSIONS[idx-1].id].phase3Done;
+    const allDone = ms.phase1Done && ms.phase2Done && ms.phase3Done;
+    let status = '', btnText = '', cls = '';
+    
+    if (state.altRouteDone) {
+      status = '✅ Acreditado por Ruta Teórica'; btnText = '✅ Completado'; cls = 'completed';
+    } else if (allDone) { 
+      status = '✅ Completada'; btnText = '✅ Completada'; cls = 'completed'; 
+    } else if (!prevDone) { 
+      status = '🔒 Bloqueada'; btnText = '🔒 Bloqueada'; cls = 'locked'; 
+    } else {
+      if (!ms.phase1Done) { status = '📘 Fase 1 disponible'; btnText = '📘 Comenzar Lectura'; }
+      else if (!ms.phase2Done) { status = '🧠 Fase 2 disponible (Intento #' + (ms.attempts+1) + ')'; btnText = '🧠 Comenzar Evaluación'; }
+      else { status = '🔬 Fase 3 disponible'; btnText = '🔬 Ir al Laboratorio'; }
+    }
+    const card = document.createElement('div');
+    card.className = 'mission-card ' + cls;
+    card.innerHTML = `
+      <strong>${m.icon} Misión ${m.id}: ${m.name}</strong>
+      <span class="badge xp">+50 XP</span>
+      <p><small>${status}</small></p>
+      <button class="btn" ${cls==='locked'||allDone||state.altRouteDone?'disabled':''} onclick="startMission(${m.id})">${btnText}</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function startMission(id) {
+  currentMission = MISSIONS.find(m => m.id === id);
+  const ms = state.missions[id];
+  if (!ms.phase1Done) startPhase(1);
+  else if (!ms.phase2Done) startPhase(2);
+  else startPhase(3);
+}
+
+function startPhase(n) {
+  if (n === 1) {
+    document.getElementById('phase1-title').textContent = '📘 ' + currentMission.name + ' · Lectura';
+    document.getElementById('phase1-content').innerHTML = currentMission.theory;
+    showScreen('screen-phase1');
+  } else if (n === 2) {
+    currentQ = 0; score = 0; selectedAnswer = null;
+    loadQuestion();
+    showScreen('screen-phase2');
+  } else if (n === 3) {
+    document.getElementById('phase3-instruction').innerHTML = currentMission.lab;
+    document.getElementById('lab-code').value = '';
+    showScreen('screen-phase3');
+  }
+}
+
+// ============ FASE 1 ============
+function completePhase1() {
+  const ms = state.missions[currentMission.id];
+  if (!ms.phase1Done) { ms.phase1Done = true; state.xp += 10; saveState(); }
+  renderMap();
+  showScreen('screen-map');
+}
+
+// ============ FASE 2 ============
+function loadQuestion() {
+  const q = currentMission.questions[currentQ];
+  document.getElementById('q-current').textContent = currentQ + 1;
+  document.getElementById('q-text').textContent = q.q;
+  const optsDiv = document.getElementById('q-options');
+  optsDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.textContent = opt;
+    div.onclick = () => selectOption(i, div);
+    optsDiv.appendChild(div);
+  });
+  document.getElementById('q-feedback').className = 'feedback';
+  document.getElementById('q-feedback').textContent = '';
+  document.getElementById('btn-next').disabled = true;
+  selectedAnswer = null;
+}
+
+function selectOption(i, el) {
+  if (selectedAnswer !== null) return;
+  selectedAnswer = i;
+  const q = currentMission.questions[currentQ];
+  const correct = q.correct;
+  const fb = document.getElementById('q-feedback');
+  document.querySelectorAll('.option').forEach((o, idx) => {
+    if (idx === correct) o.classList.add('correct');
+    else if (idx === i && i !== correct) o.classList.add('wrong');
+  });
+  if (i === correct) {
+    score++;
+    fb.className = 'feedback correct';
+    fb.textContent = q.fb;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = '❌ Incorrecto. ' + q.fb;
+  }
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= currentMission.questions.length) finishPhase2();
+  else loadQuestion();
+}
+
+function finishPhase2() {
+  const ms = state.missions[currentMission.id];
+  ms.attempts++;
+  ms.lastScore = score;
+  const passed = score >= 3;
+  if (passed && !ms.phase2Done) { ms.phase2Done = true; }
+  saveState();
+  const alert = document.getElementById('result-alert');
+  if (passed) {
+    alert.className = 'alert success';
+    alert.innerHTML = '✅ <strong>¡Aprobado!</strong> Dominio demostrado.';
+    document.getElementById('btn-to-phase3').disabled = false;
+    document.getElementById('btn-retry').style.display = 'none';
+  } else {
+    alert.className = 'alert warning';
+    alert.innerHTML = '⚠️ <strong>Intento #' + ms.attempts + '</strong>. Necesitás 3/5 para aprobar.';
+    document.getElementById('btn-to-phase3').disabled = true;
+    document.getElementById('btn-retry').style.display = 'inline-block';
+  }
+  document.getElementById('score-display').textContent = score;
+  showScreen('screen-phase2-result');
+}
+
+function retryPhase2() { startPhase(2); }
+
+// ============ FASE 3 ============
+function validateLab() {
+  const code = document.getElementById('lab-code').value.trim().toUpperCase();
+  if (!code) { alert('Ingresá el código'); return; }
+  if (code === currentMission.code || code.startsWith('M' + currentMission.id + '-')) {
+    const ms = state.missions[currentMission.id];
+    ms.phase3Done = true;
+    ms.labCode = code;
+    state.xp += 40;
+    saveState();
+    const allDone = Object.values(state.missions).every(m => m.phase3Done) || state.altRouteDone;
+    if (allDone) {
+      document.getElementById('final-name').textContent = state.apellido;
+      document.getElementById('final-xp').textContent = state.xp;
+      showScreen('screen-final');
+    } else {
+      renderMap();
+      showScreen('screen-map');
+    }
+  } else {
+    alert('❌ Código inválido. Pedile el código correcto al docente.');
+  }
+}
+
+// ============ RUTA ALTERNATIVA (30 PREGUNTAS) ============
+function startAlternativeRoute() {
+  altCurrentQ = 0;
+  altScore = 0;
+  altSelected = null;
+  loadAltQuestion();
+  showScreen('screen-alt-route');
+}
+
+function loadAltQuestion() {
+  const q = ALT_QUESTIONS[altCurrentQ];
+  document.getElementById('alt-q-current').textContent = altCurrentQ + 1;
+  document.getElementById('alt-q-text').textContent = q.q;
+  const pct = ((altCurrentQ) / 30) * 100;
+  document.getElementById('alt-xp-bar').style.width = pct + '%';
+  document.getElementById('alt-xp-bar').textContent = (altCurrentQ) + '/30';
+  
+  const optsDiv = document.getElementById('alt-q-options');
+  optsDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.textContent = opt;
+    div.onclick = () => selectAltOption(i, div);
+    optsDiv.appendChild(div);
+  });
+  document.getElementById('alt-q-feedback').className = 'feedback';
+  document.getElementById('alt-q-feedback').textContent = '';
+  document.getElementById('alt-btn-next').disabled = true;
+  altSelected = null;
+}
+
+function selectAltOption(i, el) {
+  if (altSelected !== null) return;
+  altSelected = i;
+  const q = ALT_QUESTIONS[altCurrentQ];
+  const correct = q.correct;
+  const fb = document.getElementById('alt-q-feedback');
+  document.querySelectorAll('#alt-q-options .option').forEach((o, idx) => {
+    if (idx === correct) o.classList.add('correct');
+    else if (idx === i && i !== correct) o.classList.add('wrong');
+  });
+  if (i === correct) {
+    altScore++;
+    fb.className = 'feedback correct';
+    fb.textContent = q.fb;
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = '❌ Incorrecto. ' + q.fb;
+  }
+  document.getElementById('alt-btn-next').disabled = false;
+}
+
+function nextAltQuestion() {
+  altCurrentQ++;
+  if (altCurrentQ >= ALT_QUESTIONS.length) finishAltRoute();
+  else loadAltQuestion();
+}
+
+function finishAltRoute() {
+  state.altScore = altScore;
+  const alert = document.getElementById('alt-result-alert');
+  const btnAction = document.getElementById('btn-alt-action');
+  
+  if (altScore >= 18) {
+    alert.className = 'alert success';
+    alert.innerHTML = `✅ <strong>¡Aprobado!</strong> Has demostrado un sólido dominio teórico. Puntaje: ${altScore}/30.`;
+    btnAction.textContent = '✅ Finalizar y Acreditar';
+    btnAction.className = 'btn success';
+    btnAction.onclick = function() {
+      state.altRouteDone = true;
+      state.xp += 100;
+      saveState();
+      document.getElementById('final-name').textContent = state.apellido;
+      document.getElementById('final-xp').textContent = state.xp;
+      showScreen('screen-final');
+    };
+  } else {
+    alert.className = 'alert warning';
+    alert.innerHTML = `⚠️ <strong>Necesitas repasar.</strong> El puntaje mínimo es 18/30. Tu puntaje: ${altScore}/30.`;
+    btnAction.textContent = '🔄 Reintentar Ruta';
+    btnAction.className = 'btn warning';
+    btnAction.onclick = startAlternativeRoute;
+  }
+  document.getElementById('alt-score-display').textContent = altScore;
+  showScreen('screen-alt-result');
+}
+
+// ============ DOCENTE ============
+function teacherLogin() {
+  const pass = document.getElementById('teacher-pass').value;
+  if (pass === 'docente2026') {
+    state.teacherMode = true;
+    initMissions();
+    renderTeacherTable();
+    showScreen('screen-teacher');
+  } else alert('Clave incorrecta');
+}
+
+function renderTeacherTable() {
+  const tbody = document.getElementById('teacher-tbody');
+  tbody.innerHTML = '';
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k.startsWith('ape1_')) keys.push(k);
+  }
+  if (keys.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Sin registros</td></tr>';
+    return;
+  }
+  keys.forEach(k => {
+    const s = JSON.parse(localStorage.getItem(k));
+    let modo = 'Misiones', lastMission = '-', estado = 'Sin iniciar', att = 0, sc = 0, code = '-';
+    
+    if (s.altRouteDone) {
+      modo = 'Ruta Teórica';
+      lastMission = 'N/A';
+      estado = '✅ Acreditado';
+      sc = s.altScore + '/30';
+      code = 'AUTO';
+    } else if (s.missions) {
+      for (let i = 7; i >= 1; i--) {
+        const m = s.missions[i];
+        if (m && (m.phase1Done || m.phase2Done || m.phase3Done)) {
+          lastMission = 'M' + i;
+          att = m.attempts; sc = m.lastScore + '/5'; code = m.labCode || '-';
+          if (m.phase3Done) estado = '✅ Completa';
+          else if (m.phase2Done) estado = '🔬 En Lab';
+          else if (m.phase1Done) estado = '🧠 En Eval';
+          else estado = '📘 En Lectura';
+          break;
+        }
+      }
+    }
+    tbody.innerHTML += `<tr><td>${s.apellido}</td><td>${modo}</td><td>${lastMission}</td><td>${att}</td><td>${sc}</td><td>${estado}</td><td>${code}</td></tr>`;
+  });
+}
+
+function resetStudent() {
+  const ap = document.getElementById('reset-apellido').value.trim();
+  if (!ap) { alert('Ingresá un apellido'); return; }
+  if (confirm('¿Borrar progreso de ' + ap + '?')) {
+    localStorage.removeItem('ape1_' + ap.toLowerCase());
+    document.getElementById('reset-apellido').value = '';
+    renderTeacherTable();
+  }
+}
+</script>
+</body>
+</html>
